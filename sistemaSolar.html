@@ -400,25 +400,40 @@
             *********************************************************************************
             */
 
+            // "tiempo" lo tomo como que son meses
+
             // tierra
-            m1=mat4.create(); 
-            mat4.translate(m1,m1,[60,0,0]);    
+            m1=mat4.create();
+            mat4.rotate(m1, m1, 2*Math.PI/12*tiempo, vec3.fromValues(0,1,0));
+            mat4.translate(m1, m1, [60,0,0]);
+            mat4.rotate(m1, m1, -2*Math.PI/12*tiempo, vec3.fromValues(0,1,0));
+
+            m2=mat4.clone(m1);
+            m4=mat4.clone(m1);
+
+            mat4.rotate(m1, m1, 23/360*2*Math.PI, vec3.fromValues(1,0,0)); // Inclinacion de 23 grados
+            mat4.rotate(m1, m1, 2*Math.PI*365/10/12*tiempo, vec3.fromValues(0,1,0)); // 36 vueltas sobre su eje por año
+
             setTransform(tierra,m1);
   
             // luna
-            m2=mat4.create();      
-            mat4.translate(m2,m2,[90,0,0]);    
-            setTransform(luna,m2);  
+            mat4.rotate(m2, m2, 2*Math.PI*tiempo, vec3.fromValues(0,1,0));
+            mat4.translate(m2, m2, [30,0,0]);
+            
+            setTransform(luna, m2);
 
             // apollo
-            m3=mat4.create();
-            mat4.translate(m3,m3,[110,0,0]); 
-            setTransform(apollo,m3);    
+            m3=mat4.clone(m2);
+            mat4.translate(m3, m3, [1.5,1.5,0]);
+            mat4.rotate(m3, m3, -Math.PI/4, vec3.fromValues(0,0,1));
+
+            setTransform(apollo, m3);
 
             // iss
-            m4=mat4.create(); 
-            mat4.translate(m4,m4,[130,0,0]);            
-            setTransform(iss,m4);  
+            mat4.rotate(m4, m4, 2*Math.PI*365/10/12*tiempo, vec3.fromValues(1,0,0));
+            mat4.translate(m4, m4, [0,0,10]);
+
+            setTransform(iss, m4); 
 
 
             // *********************************************************************************************
